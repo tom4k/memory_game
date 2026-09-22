@@ -1,69 +1,155 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useState } from 'react';
+import { useGame } from '../hooks/useGame';
+import { Header } from '../components/Header';
+import { HomeScreen } from '../components/HomeScreen';
+import { MemorizeScreen } from '../components/MemorizeScreen';
+import { TransitionScreen } from '../components/TransitionScreen';
+import { RecallScreen } from '../components/RecallScreen';
+import { ResultScreen } from '../components/ResultScreen';
+import { ParentSettingsModal } from '../components/ParentSettingsModal';
+import { ProgressModal } from '../components/ProgressModal';
+import { CustomGameModal } from '../components/CustomGameModal';
+
+export default function MemoryGameApp() {
+  const {
+    phase,
+    setPhase,
+    settings,
+    updateSettings,
+    progress,
+    currentLevel,
+    round,
+    currentSlideIndex,
+    slideProgress,
+    selectedIds,
+    recallSecondsLeft,
+    transitionCountdown,
+    evaluation,
+    isSettingsOpen,
+    setIsSettingsOpen,
+    isProgressOpen,
+    setIsProgressOpen,
+    customConfig,
+    setCustomConfig,
+    startGame,
+    startCustomGame,
+    toggleCardSelection,
+    submitRecall,
+    playAgain,
+    nextLevel,
+  } = useGame();
+
+  const [isCustomOpen, setIsCustomOpen] = useState(false);
+
+  const handleToggleSound = () => {
+    updateSettings({
+      ...settings,
+      soundEffectsEnabled: !settings.soundEffectsEnabled,
+    });
+  };
+
+  const handleToggleAdaptive = () => {
+    updateSettings({
+      ...settings,
+      adaptiveModeEnabled: !settings.adaptiveModeEnabled,
+    });
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="min-h-screen flex flex-col bg-[#f8faff] bg-gradient-to-b from-indigo-50/80 via-purple-50/50 to-amber-50/60 text-slate-900 font-sans selection:bg-pink-300 selection:text-pink-900">
+      {/* Universal Kid-Friendly Header */}
+      <Header
+        settings={settings}
+        onToggleSound={handleToggleSound}
+        onOpenProgress={() => setIsProgressOpen(true)}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+        onGoHome={() => setPhase('HOME')}
+        isHome={phase === 'HOME'}
+      />
+
+      {/* Main Dynamic Game Container */}
+      <main className="flex-1 flex flex-col items-center justify-start pb-12">
+        {phase === 'HOME' && (
+          <HomeScreen
+            onSelectLevel={startGame}
+            onOpenCustom={() => setIsCustomOpen(true)}
+            onOpenProgress={() => setIsProgressOpen(true)}
+            onOpenSettings={() => setIsSettingsOpen(true)}
+            settings={settings}
+            onToggleAdaptive={handleToggleAdaptive}
+          />
+        )}
+
+        {phase === 'MEMORIZE' && round && (
+          <MemorizeScreen
+            currentImage={round.memoryImages[currentSlideIndex]}
+            currentIndex={currentSlideIndex}
+            totalImages={round.memoryImages.length}
+            progressPercent={slideProgress}
+            showImageNames={settings.showImageNames}
+            levelName={currentLevel.name}
+          />
+        )}
+
+        {phase === 'TRANSITION' && (
+          <TransitionScreen countdown={transitionCountdown} />
+        )}
+
+        {phase === 'RECALL' && round && (
+          <RecallScreen
+            gridImages={round.recallGrid}
+            selectedIds={selectedIds}
+            onToggleCard={toggleCardSelection}
+            onSubmit={submitRecall}
+            targetCount={round.memoryImages.length}
+            secondsLeft={recallSecondsLeft}
+          />
+        )}
+
+        {phase === 'RESULT' && evaluation && (
+          <ResultScreen
+            evaluation={evaluation}
+            level={currentLevel}
+            onPlayAgain={playAgain}
+            onNextLevel={nextLevel}
+            onGoHome={() => setPhase('HOME')}
+          />
+        )}
       </main>
+
+      {/* Child-Safe Footer */}
+      <footer className="w-full py-4 text-center text-xs text-slate-400 font-medium border-t border-slate-100 bg-white/40">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>🧠 Memory Explorer • Designed with care for kids ages 5–9</span>
+          <span className="text-[11px] text-slate-400">
+            🔒 100% Private • No Ads • Local Device Only
+          </span>
+        </div>
+      </footer>
+
+      {/* Modals */}
+      <ParentSettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        settings={settings}
+        onSave={updateSettings}
+      />
+
+      <ProgressModal
+        isOpen={isProgressOpen}
+        onClose={() => setIsProgressOpen(false)}
+        progress={progress}
+      />
+
+      <CustomGameModal
+        isOpen={isCustomOpen}
+        onClose={() => setIsCustomOpen(false)}
+        config={customConfig}
+        onChangeConfig={setCustomConfig}
+        onStart={startCustomGame}
+      />
     </div>
   );
 }
