@@ -5,6 +5,7 @@ import { GameEvaluation } from '../lib/gameEngine';
 import { GameLevel } from '../data/levels';
 import { RotateCcw, ArrowRight, Home, CheckCircle2, AlertCircle, XCircle } from 'lucide-react';
 import { GameImage } from '../data/images';
+import { GameItemGraphic } from './GameItemGraphic';
 
 interface ResultScreenProps {
   evaluation: GameEvaluation;
@@ -235,9 +236,7 @@ function ItemCard({ item, status }: { item: GameImage; status: 'correct' | 'miss
     <div
       className={`rounded-2xl p-3 border-2 ${borderColors[status]} flex flex-col items-center justify-center text-center`}
     >
-      <span className="text-4xl" role="img" aria-label={item.name}>
-        {item.emoji}
-      </span>
+      <GameItemGraphic item={item} size="sm" className="mb-1" />
       <span className="mt-1 font-bold text-xs text-slate-800 truncate w-full">
         {item.name}
       </span>

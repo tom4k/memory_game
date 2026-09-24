@@ -3,6 +3,7 @@
 import React from 'react';
 import { GameImage } from '../data/images';
 import { Check, Clock, CheckCircle2 } from 'lucide-react';
+import { GameItemGraphic } from './GameItemGraphic';
 
 interface RecallScreenProps {
   gridImages: GameImage[];
@@ -96,16 +97,14 @@ export const RecallScreen: React.FC<RecallScreenProps> = ({
                 <Check className="w-4 h-4 stroke-[3]" />
               </div>
 
-              {/* Card visual emoji/icon */}
-              <span
-                className={`text-5xl sm:text-6xl transition-transform duration-200 ${
+              {/* Card visual graphic */}
+              <GameItemGraphic
+                item={item}
+                size="md"
+                className={`transition-transform duration-200 ${
                   isSelected ? 'scale-110' : 'group-hover:scale-105'
                 }`}
-                role="img"
-                aria-hidden="true"
-              >
-                {item.emoji}
-              </span>
+              />
 
               {/* Object Name (same appearance for targets and distractors) */}
               <span

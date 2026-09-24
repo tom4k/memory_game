@@ -4,6 +4,7 @@ import React from 'react';
 import { GameImage } from '../data/images';
 import { Volume2 } from 'lucide-react';
 import { speakWord } from '../lib/audio';
+import { GameItemGraphic } from './GameItemGraphic';
 
 interface MemorizeScreenProps {
   currentImage: GameImage;
@@ -46,14 +47,12 @@ export const MemorizeScreen: React.FC<MemorizeScreenProps> = ({
 
         {/* Big visual object representation */}
         <div className="relative z-10 flex flex-col items-center justify-center">
-          <span
-            className="text-8xl sm:text-9xl filter drop-shadow-md select-none transform transition-transform duration-300 hover:scale-110 cursor-pointer"
-            role="img"
-            aria-label={currentImage.name}
+          <GameItemGraphic
+            item={currentImage}
+            size="xl"
+            className="transform transition-transform duration-300 hover:scale-110 cursor-pointer drop-shadow-md"
             onClick={() => speakWord(currentImage.speechLabel, true)}
-          >
-            {currentImage.emoji}
-          </span>
+          />
 
           {/* Name Label with pronounce button */}
           {showImageNames && (
