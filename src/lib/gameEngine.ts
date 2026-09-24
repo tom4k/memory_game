@@ -195,7 +195,7 @@ export function calculateAdaptiveDifficulty(
     // Increase difficulty slightly
     const newMemory = Math.min(12, currentLevel.memoryCount + 1);
     const newGrid = Math.min(24, currentLevel.gridCount + 2);
-    const newDuration = Math.max(1.5, Number((currentLevel.displayDurationSec - 0.25).toFixed(2)));
+    const newDuration = Math.max(3.0, Number((currentLevel.displayDurationSec - 0.25).toFixed(2)));
 
     const updated: GameLevel = {
       ...currentLevel,

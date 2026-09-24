@@ -123,10 +123,10 @@ export const CustomGameModal: React.FC<CustomGameModalProps> = ({
             </div>
             <input
               type="range"
-              min={1.0}
-              max={5.0}
+              min={3.0}
+              max={6.0}
               step={0.5}
-              value={config.displayDurationSec}
+              value={Math.max(3.0, config.displayDurationSec)}
               onChange={(e) =>
                 onChangeConfig({
                   ...config,
@@ -136,7 +136,7 @@ export const CustomGameModal: React.FC<CustomGameModalProps> = ({
               className="w-full accent-amber-500"
             />
             <span className="text-[11px] text-slate-400 block">
-              1.0s (super fast) to 5.0s (extra time)
+              3.0s (minimum) to 6.0s (relaxed)
             </span>
           </div>
 

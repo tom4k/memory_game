@@ -177,17 +177,17 @@ export const ParentSettingsModal: React.FC<ParentSettingsModalProps> = ({
                   </div>
                   <input
                     type="range"
-                    min={1.0}
-                    max={5.0}
+                    min={3.0}
+                    max={6.0}
                     step={0.5}
-                    value={draft.displayDurationSec}
+                    value={Math.max(3.0, draft.displayDurationSec)}
                     onChange={(e) =>
                       setDraft({ ...draft, displayDurationSec: Number(e.target.value) })
                     }
                     className="w-full accent-indigo-600"
                   />
                   <span className="text-[11px] text-slate-400 block">
-                    1.0s (fast) to 5.0s (relaxed)
+                    3.0s (minimum) to 6.0s (relaxed)
                   </span>
                 </div>
               </div>
