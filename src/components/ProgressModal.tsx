@@ -61,9 +61,16 @@ export const ProgressModal: React.FC<ProgressModalProps> = ({
     {
       id: 'level_master',
       name: 'Master Mind',
-      desc: 'Unlocked Level 4 or higher',
+      desc: 'Unlocked Level 5 or higher',
       icon: '🏆',
-      unlocked: highestLevelCompleted >= 4,
+      unlocked: highestLevelCompleted >= 5,
+    },
+    {
+      id: 'level_legend',
+      name: 'Memory Legend',
+      desc: 'Completed Level 10 challenge',
+      icon: '👑',
+      unlocked: highestLevelCompleted >= 10,
     },
   ];
 
