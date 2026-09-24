@@ -94,7 +94,7 @@ export const CustomGameModal: React.FC<CustomGameModalProps> = ({
             <input
               type="range"
               min={2}
-              max={12}
+              max={30}
               value={config.memoryCount}
               onChange={(e) => {
                 const newMem = Number(e.target.value);
@@ -107,7 +107,7 @@ export const CustomGameModal: React.FC<CustomGameModalProps> = ({
               className="w-full accent-pink-600"
             />
             <span className="text-[11px] text-slate-400 block">
-              Choose between 2 and 12 pictures to memorize
+              Choose between 2 and 30 pictures to memorize
             </span>
           </div>
 
@@ -153,8 +153,8 @@ export const CustomGameModal: React.FC<CustomGameModalProps> = ({
             <input
               type="range"
               min={Math.max(4, config.memoryCount + 1)}
-              max={20}
-              value={config.gridCount}
+              max={60}
+              value={Math.max(config.gridCount, config.memoryCount + 1)}
               onChange={(e) =>
                 onChangeConfig({
                   ...config,
@@ -165,7 +165,7 @@ export const CustomGameModal: React.FC<CustomGameModalProps> = ({
             />
             <span className="text-[11px] text-slate-400 block">
               Includes all {config.memoryCount} memory cards +{' '}
-              {config.gridCount - config.memoryCount} distractors
+              {Math.max(0, config.gridCount - config.memoryCount)} distractors
             </span>
           </div>
 

@@ -156,7 +156,7 @@ export const ParentSettingsModal: React.FC<ParentSettingsModalProps> = ({
                   <input
                     type="range"
                     min={2}
-                    max={10}
+                    max={30}
                     value={draft.memoryCount}
                     onChange={(e) =>
                       setDraft({ ...draft, memoryCount: Number(e.target.value) })
@@ -164,7 +164,7 @@ export const ParentSettingsModal: React.FC<ParentSettingsModalProps> = ({
                     className="w-full accent-indigo-600"
                   />
                   <span className="text-[11px] text-slate-400 block">
-                    Range: 2 to 10 images
+                    Range: 2 to 30 images
                   </span>
                 </div>
 

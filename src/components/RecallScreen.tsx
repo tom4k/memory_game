@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { GameImage } from '../data/images';
-import { Check, Clock, CheckCircle2 } from 'lucide-react';
+import { Check, Clock } from 'lucide-react';
 import { GameItemGraphic } from './GameItemGraphic';
 
 interface RecallScreenProps {
@@ -34,7 +34,7 @@ export const RecallScreen: React.FC<RecallScreenProps> = ({
             </span>
           </h2>
           <p className="text-xs sm:text-sm font-semibold text-slate-500">
-            Tap all the pictures that were in the slideshow. You saw {targetCount} pictures!
+            Tap all the pictures that were in the slideshow.
           </p>
         </div>
 
@@ -53,14 +53,6 @@ export const RecallScreen: React.FC<RecallScreenProps> = ({
               <span>{secondsLeft}s left</span>
             </div>
           )}
-
-          {/* Selected count pill */}
-          <div className="flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-indigo-50 border-2 border-indigo-200 text-indigo-800 font-extrabold text-sm sm:text-base shadow-xs">
-            <CheckCircle2 className="w-5 h-5 text-indigo-600" />
-            <span>
-              Selected: <strong className="text-indigo-900">{selectedIds.size}</strong>
-            </span>
-          </div>
         </div>
       </div>
 
